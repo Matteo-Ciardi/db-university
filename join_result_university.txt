@@ -1,0 +1,64 @@
+// 1.
+
+SELECT *
+FROM universita.degrees AS d
+JOIN universita.departments AS dep ON d.department_id = dep.id
+WHERE dep.name = 'Dipartimento di Neuroscienze'
+  AND d.level = 'Magistrale';
+
+// 2.
+
+SELECT students.*
+FROM students
+INNER JOIN degrees ON students.degree_id = degrees.id
+WHERE degrees.name LIKE '%Economia%';
+
+// 3.
+
+SELECT c.*
+FROM universita.courses AS c
+JOIN universita.course_teacher AS ct ON c.id = ct.course_id
+WHERE ct.teacher_id = 44;
+
+// 4.
+
+SELECT 
+  s.name AS nome_studente,
+  s.surname AS cognome_studente,
+  s.email AS email_studente,
+  d.name AS corso_di_laurea,
+  dep.name AS dipartimento
+FROM universita.students AS s
+JOIN universita.degrees AS d ON s.degree_id = d.id
+JOIN universita.departments AS dep ON d.department_id = dep.id
+ORDER BY s.surname ASC, s.name ASC;
+
+// 5.
+
+SELECT 
+  d.name AS corso_di_laurea,
+  c.name AS corso,
+  t.name AS nome_docente,
+  t.surname AS cognome_docente
+FROM universita.degrees AS d
+JOIN universita.courses AS c ON c.degree_id = d.id
+JOIN universita.course_teacher AS ct ON ct.course_id = c.id
+JOIN universita.teachers AS t ON t.id = ct.teacher_id
+ORDER BY d.name ASC, c.name ASC, t.surname ASC;
+
+// 6.
+
+SELECT DISTINCT 
+  t.id,
+  t.name AS nome_docente,
+  t.surname AS cognome_docente,
+  t.email AS email_docente
+FROM universita.teachers AS t
+JOIN universita.course_teacher AS ct ON t.id = ct.teacher_id
+JOIN universita.courses AS c ON ct.course_id = c.id
+JOIN universita.degrees AS d ON c.degree_id = d.id
+JOIN universita.departments AS dep ON d.department_id = dep.id
+WHERE dep.name = 'Dipartimento di Matematica'
+ORDER BY t.surname ASC, t.name ASC;
+
+
